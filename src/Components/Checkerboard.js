@@ -28,6 +28,19 @@ const Checkerboard = (props) => {
         return tempBoard;
     }
 
+    //Function to move piece
+    function movePiece(originalLocation, newLocation){
+        //Make sure there is a piece at the original location
+        let currentPiece = checkerPieces[originalLocation[0]][originalLocation[1]];
+        let tempPieces = checkerPieces;
+        if(currentPiece != 0){
+            tempPieces[originalLocation[0]][originalLocation[1]] = 0;
+            tempPieces[newLocation[0]][newLocation[1]] = currentPiece;
+            setCheckerPieces(tempPieces);
+            setBoard(resetBoard);
+        }
+    }
+
     //Initialize checker pieces with an array indicating their location
     //0 = no piece
     //1 = red piece
@@ -87,7 +100,7 @@ const Checkerboard = (props) => {
                         row.map((col, colIndex) =>{
                             return (
                                 <>
-                                <Square rowIndex={rowIndex} colIndex={colIndex} col={col} />
+                                <Square clickedPiece={clickedPiece} movePiece={movePiece} rowIndex={rowIndex} colIndex={colIndex} col={col} />
                                 {/* <span key={rowIndex + colIndex} className={col === 1 ? "square square-black" : (col === -1 ? "square suggested" : "square square-white")}></span> */}
                                 {checkerPieces && checkerPieces[rowIndex][colIndex] === 1 && <CheckerPiece player={1} setClickedPiecePlayer={setClickedPiecePlayer} clickedPiece={clickedPiece} setClickedPiece={setClickedPiece} isClicked={rowIndex == clickedPiece[0] && colIndex == clickedPiece[1]} row={rowIndex} col={colIndex} left={colIndex*100} color={playerOneColor} shape={playerOneShape} />}
                                 {checkerPieces && checkerPieces[rowIndex][colIndex] === -1 && <CheckerPiece player={2} setClickedPiecePlayer={setClickedPiecePlayer} clickedPiece={clickedPiece} setClickedPiece={setClickedPiece} isClicked={rowIndex === clickedPiece[0] && colIndex === clickedPiece[1]} row={rowIndex} col={colIndex} left={colIndex*100} row={rowIndex} col={colIndex} left={colIndex*100} color={playerTwoColor} shape={playerTwoShape}/>}
