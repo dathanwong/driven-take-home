@@ -13,3 +13,7 @@
     height: 80px;
     width: 80px;
 }
+
+.checker-piece-clicked{
+    border: 3px solid yellow;
+}
