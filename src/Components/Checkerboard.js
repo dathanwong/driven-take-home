@@ -52,22 +52,27 @@ const Checkerboard = (props) => {
         let tempBoard = resetBoard();
         //Set the potential moves
         if(clickedPiecePlayer === 1){
-            if(clickedPiece[0] + 1 > 0 && clickedPiece[0] + 1 < dimensions && clickedPiece[1]+1 > 0 && clickedPiece[1]+1 < dimensions){
-                tempBoard[clickedPiece[0]+1][clickedPiece[1]+1] = -1;
+            let row = clickedPiece[0] + 1;
+            let col1 = clickedPiece[1]+1;
+            let col2 = clickedPiece[1]-1;
+            if(row >= 0 && row < dimensions && col1 >= 0 && col1 < dimensions){
+                if(checkerPieces[row][col1] === 0) tempBoard[row][col1] = -1;
             }
-            if(clickedPiece[0] + 1 > 0 && clickedPiece[0] + 1 < dimensions && clickedPiece[1]-1 > 0 && clickedPiece[1]-1 < dimensions){
-                tempBoard[clickedPiece[0]+1][clickedPiece[1]-1] = -1;
+            if(row >= 0 && row < dimensions && col2 >= 0 && col2 < dimensions){
+                if(checkerPieces[row][col2] === 0) tempBoard[row][col2] = -1;
             }
         }
         if(clickedPiecePlayer === 2){
-            if(clickedPiece[0] - 1 > 0 && clickedPiece[0] - 1 < dimensions && clickedPiece[1]+1 > 0 && clickedPiece[1]+1 < dimensions){
-                tempBoard[clickedPiece[0]-1][clickedPiece[1]+1] = -1;
+            let row = clickedPiece[0] - 1;
+            let col1 = clickedPiece[1]+1;
+            let col2 = clickedPiece[1]-1;
+            if(row >= 0 && row < dimensions && col1 >= 0 && col1 < dimensions){
+                if(checkerPieces[row][col1] === 0) tempBoard[row][col1] = -1;
             }
-            if(clickedPiece[0] - 1 > 0 && clickedPiece[0] - 1 < dimensions && clickedPiece[1]-1 > 0 && clickedPiece[1]-1 < dimensions){
-                tempBoard[clickedPiece[0]-1][clickedPiece[1]-1] = -1;
+            if(row >= 0 && row < dimensions && col2 >= 0 && col2 < dimensions){
+                if(checkerPieces[row][col2] === 0) tempBoard[row][col2] = -1;
             }
         }
-        //Check to make sure the potential move is not 
         setBoard(tempBoard);
     }, [clickedPiece])
 
