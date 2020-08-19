@@ -9,6 +9,7 @@ const Checkerboard = (props) => {
     const [checkerPieces, setCheckerPieces] = useState(null);
     const [clickedPiece, setClickedPiece] = useState([-3, -3]);
     const [clickedPiecePlayer, setClickedPiecePlayer] = useState(1);
+    const [lastClicked, setLastClicked] = useState(null);
     const [board, setBoard] = useState(resetBoard());
 
 
@@ -34,6 +35,8 @@ const Checkerboard = (props) => {
         let currentPiece = checkerPieces[originalLocation[0]][originalLocation[1]];
         let tempPieces = checkerPieces;
         if(currentPiece != 0){
+            //Update last clicked player
+            setLastClicked(clickedPiecePlayer);
             tempPieces[originalLocation[0]][originalLocation[1]] = 0;
             tempPieces[newLocation[0]][newLocation[1]] = currentPiece;
             setCheckerPieces(tempPieces);
@@ -65,30 +68,33 @@ const Checkerboard = (props) => {
     useEffect(() =>{
         //Clear board of potential moves
         let tempBoard = resetBoard();
-        //Set the potential moves
-        if(clickedPiecePlayer === 1){
-            let row = clickedPiece[0] + 1;
-            let col1 = clickedPiece[1]+1;
-            let col2 = clickedPiece[1]-1;
-            if(row >= 0 && row < dimensions && col1 >= 0 && col1 < dimensions){
-                if(checkerPieces[row][col1] === 0) tempBoard[row][col1] = -1;
+        //Make sure the same player is not clicking again
+        if(lastClicked !== clickedPiecePlayer){
+            //Set the potential moves
+            if(clickedPiecePlayer === 1){
+                let row = clickedPiece[0] + 1;
+                let col1 = clickedPiece[1]+1;
+                let col2 = clickedPiece[1]-1;
+                if(row >= 0 && row < dimensions && col1 >= 0 && col1 < dimensions){
+                    if(checkerPieces[row][col1] === 0) tempBoard[row][col1] = -1;
+                }
+                if(row >= 0 && row < dimensions && col2 >= 0 && col2 < dimensions){
+                    if(checkerPieces[row][col2] === 0) tempBoard[row][col2] = -1;
+                }
             }
-            if(row >= 0 && row < dimensions && col2 >= 0 && col2 < dimensions){
-                if(checkerPieces[row][col2] === 0) tempBoard[row][col2] = -1;
+            else if(clickedPiecePlayer === 2){
+                let row = clickedPiece[0] - 1;
+                let col1 = clickedPiece[1]+1;
+                let col2 = clickedPiece[1]-1;
+                if(row >= 0 && row < dimensions && col1 >= 0 && col1 < dimensions){
+                    if(checkerPieces[row][col1] === 0) tempBoard[row][col1] = -1;
+                }
+                if(row >= 0 && row < dimensions && col2 >= 0 && col2 < dimensions){
+                    if(checkerPieces[row][col2] === 0) tempBoard[row][col2] = -1;
+                }
             }
+            setBoard(tempBoard);
         }
-        if(clickedPiecePlayer === 2){
-            let row = clickedPiece[0] - 1;
-            let col1 = clickedPiece[1]+1;
-            let col2 = clickedPiece[1]-1;
-            if(row >= 0 && row < dimensions && col1 >= 0 && col1 < dimensions){
-                if(checkerPieces[row][col1] === 0) tempBoard[row][col1] = -1;
-            }
-            if(row >= 0 && row < dimensions && col2 >= 0 && col2 < dimensions){
-                if(checkerPieces[row][col2] === 0) tempBoard[row][col2] = -1;
-            }
-        }
-        setBoard(tempBoard);
     }, [clickedPiece])
 
     return ( 
