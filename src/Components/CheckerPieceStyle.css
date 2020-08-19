@@ -1,7 +1,15 @@
 .checker-piece{
     height: 100px;
     width: 100px;
-    border-radius: 50%;
     border: 5px solid gray;
     position: absolute;
+}
+
+.checker-piece-circle{
+    border-radius: 50%;
+}
+
+.checker-piece-square{
+    height: 80px;
+    width: 80px;
 }

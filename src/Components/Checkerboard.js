@@ -4,7 +4,7 @@ import CheckerPiece from './CheckerPiece';
 
 const Checkerboard = (props) => {
     
-    const {dimensions, playerOneColor, playerTwoColor} = props;
+    const {dimensions, playerOneColor, playerTwoColor, playerOneShape, playerTwoShape} = props;
     const [checkerPieces, setCheckerPieces] = useState(null);
 
     //Create checkerboard matrix with each item indicating color
@@ -46,8 +46,8 @@ const Checkerboard = (props) => {
                             return (
                                 <>
                                 <span key={rowIndex + colIndex} className={col === 1 ? "square square-black" : "square square-white"}></span>
-                                {checkerPieces && checkerPieces[rowIndex][colIndex] === 1 && <CheckerPiece left={colIndex*100} color={playerOneColor}/>}
-                                {checkerPieces && checkerPieces[rowIndex][colIndex] === -1 && <CheckerPiece left={colIndex*100} color={playerTwoColor}/>}
+                                {checkerPieces && checkerPieces[rowIndex][colIndex] === 1 && <CheckerPiece left={colIndex*100} color={playerOneColor} shape={playerOneShape} />}
+                                {checkerPieces && checkerPieces[rowIndex][colIndex] === -1 && <CheckerPiece left={colIndex*100} color={playerTwoColor} shape={playerTwoShape}/>}
                                 </>
                                 )
                             })

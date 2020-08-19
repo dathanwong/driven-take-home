@@ -9,6 +9,8 @@ const Main = (props) => {
     const [dimensions, setDimensions] = useState(8);
     const [playerOneColor, setPlayerOneColor] = useState("red");
     const [playerTwoColor, setPlayerTwoColor] = useState("black");
+    const [playerOneShape, setPlayerOneShape] = useState("circle");
+    const [playerTwoShape, setPlayerTwoShape] = useState("circle");
 
     return ( 
         <div className="container">
@@ -16,11 +18,11 @@ const Main = (props) => {
                 <SizeInput dimensions={dimensions} setDimensions={setDimensions}/>
             </div>
             <div className="row">
-                <ColorPicker playerOneColor={playerOneColor} setPlayerOneColor={setPlayerOneColor} playerTwoColor={playerTwoColor} setPlayerTwoColor={setPlayerTwoColor} />
+                <ColorPicker playerOneColor={playerOneColor} setPlayerOneColor={setPlayerOneColor} playerTwoColor={playerTwoColor} setPlayerTwoColor={setPlayerTwoColor} setPlayerOneShape={setPlayerOneShape} playerOneShape={playerOneShape} setPlayerTwoShape={setPlayerTwoShape} playerTwoShape={playerTwoShape} />
             </div>
             <div className="row">
                 <div className="col">
-                    <Checkerboard dimensions={dimensions} playerOneColor={playerOneColor} playerTwoColor={playerTwoColor} />
+                    <Checkerboard dimensions={dimensions} playerOneColor={playerOneColor} playerTwoColor={playerTwoColor} playerTwoShape={playerTwoShape} playerOneShape={playerOneShape} />
                 </div>
             </div>
         </div>
