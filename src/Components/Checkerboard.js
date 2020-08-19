@@ -29,6 +29,15 @@ const Checkerboard = (props) => {
         return tempBoard;
     }
 
+    //Resets the entire board
+    function resetGame(){
+        setClickedPiece([-3,-3]);
+        setClickedPiecePlayer(1);
+        setLastClicked(null);
+        setBoard(resetBoard());
+        setCheckerPieces(initPieces());
+    }
+
     //Function to move piece
     function movePiece(originalLocation, newLocation){
         //Make sure there is a piece at the original location
@@ -50,6 +59,10 @@ const Checkerboard = (props) => {
     //-1 = black piece
     useEffect(() => {
         setBoard(resetBoard());
+        setCheckerPieces(initPieces());
+    }, [dimensions])
+
+    function initPieces(){
         let pieces = [];
         for(let i = 0; i < dimensions; i++){
             let row = [];
@@ -60,9 +73,8 @@ const Checkerboard = (props) => {
             }
             pieces.push(row);
         }
-        setCheckerPieces(pieces);
-        console.log(pieces);
-    }, [dimensions])
+        return pieces;
+    }
 
     //Show potential moves when a piece is clicked
     useEffect(() =>{
@@ -97,29 +109,45 @@ const Checkerboard = (props) => {
         }
     }, [clickedPiece])
 
-    return ( 
-        board.map((row, rowIndex) =>{
-            return (
-                <>
-                <div className="row board-row" key={rowIndex}>
-                    {
-                        row.map((col, colIndex) =>{
-                            return (
-                                <>
-                                <Square clickedPiece={clickedPiece} movePiece={movePiece} rowIndex={rowIndex} colIndex={colIndex} col={col} />
-                                {/* <span key={rowIndex + colIndex} className={col === 1 ? "square square-black" : (col === -1 ? "square suggested" : "square square-white")}></span> */}
-                                {checkerPieces && checkerPieces[rowIndex][colIndex] === 1 && <CheckerPiece player={1} setClickedPiecePlayer={setClickedPiecePlayer} clickedPiece={clickedPiece} setClickedPiece={setClickedPiece} isClicked={rowIndex == clickedPiece[0] && colIndex == clickedPiece[1]} row={rowIndex} col={colIndex} left={colIndex*100} color={playerOneColor} shape={playerOneShape} />}
-                                {checkerPieces && checkerPieces[rowIndex][colIndex] === -1 && <CheckerPiece player={2} setClickedPiecePlayer={setClickedPiecePlayer} clickedPiece={clickedPiece} setClickedPiece={setClickedPiece} isClicked={rowIndex === clickedPiece[0] && colIndex === clickedPiece[1]} row={rowIndex} col={colIndex} left={colIndex*100} row={rowIndex} col={colIndex} left={colIndex*100} color={playerTwoColor} shape={playerTwoShape}/>}
-                                </>
-                                )
-                            })
+    return (
+        <>
+        <div className="container">
+            <div className="row">
+                {
+                    board.map((row, rowIndex) =>{
+                        return (
+                            <>
+                            <div className="row board-row" key={rowIndex}>
+                                {
+                                    row.map((col, colIndex) =>{
+                                        return (
+                                            <>
+                                            <Square clickedPiece={clickedPiece} movePiece={movePiece} rowIndex={rowIndex} colIndex={colIndex} col={col} />
+                                            {/* <span key={rowIndex + colIndex} className={col === 1 ? "square square-black" : (col === -1 ? "square suggested" : "square square-white")}></span> */}
+                                            {checkerPieces && checkerPieces[rowIndex][colIndex] === 1 && <CheckerPiece player={1} setClickedPiecePlayer={setClickedPiecePlayer} clickedPiece={clickedPiece} setClickedPiece={setClickedPiece} isClicked={rowIndex == clickedPiece[0] && colIndex == clickedPiece[1]} row={rowIndex} col={colIndex} left={colIndex*100} color={playerOneColor} shape={playerOneShape} />}
+                                            {checkerPieces && checkerPieces[rowIndex][colIndex] === -1 && <CheckerPiece player={2} setClickedPiecePlayer={setClickedPiecePlayer} clickedPiece={clickedPiece} setClickedPiece={setClickedPiece} isClicked={rowIndex === clickedPiece[0] && colIndex === clickedPiece[1]} row={rowIndex} col={colIndex} left={colIndex*100} row={rowIndex} col={colIndex} left={colIndex*100} color={playerTwoColor} shape={playerTwoShape}/>}
+                                            </>
+                                            )
+                                        })
+                                }
+                            </div>
+                            </>
+                        )
                     }
+                    )
+                }
+            </div> 
+            <div className="row">
+                <div className="col-2">
+                    <button className="btn btn-primary">Save</button>
                 </div>
-                </>
-            )
-        }
-            
-        )
+                <div className="col-2">
+                    <button onClick={resetGame} className="btn btn-danger">Reset</button>
+                </div>
+            </div>
+        </div>
+        
+        </>
      );
 }
  

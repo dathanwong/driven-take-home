@@ -9,7 +9,7 @@ const SizeInput = (props) => {
             <div className="input-group-prepend">
                 <span className="input-group-text">Enter board dimensions: </span> 
             </div>
-            <input className="form-control" required type="number" value={dimensions} onChange={e => setDimensions(e.target.value)} />
+            <input min="6" max="10" className="form-control" required type="number" value={dimensions} onChange={e => setDimensions(e.target.value)} />
         </div>
         
      );
