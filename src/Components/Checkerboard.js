@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './CheckerboardStyle.css';
 import CheckerPiece from './CheckerPiece';
+import Square from './Square';
 
 const Checkerboard = (props) => {
     
@@ -32,6 +33,7 @@ const Checkerboard = (props) => {
     //1 = red piece
     //-1 = black piece
     useEffect(() => {
+        setBoard(resetBoard());
         let pieces = [];
         for(let i = 0; i < dimensions; i++){
             let row = [];
@@ -85,7 +87,8 @@ const Checkerboard = (props) => {
                         row.map((col, colIndex) =>{
                             return (
                                 <>
-                                <span key={rowIndex + colIndex} className={col === 1 ? "square square-black" : (col === -1 ? "square suggested" : "square square-white")}></span>
+                                <Square rowIndex={rowIndex} colIndex={colIndex} col={col} />
+                                {/* <span key={rowIndex + colIndex} className={col === 1 ? "square square-black" : (col === -1 ? "square suggested" : "square square-white")}></span> */}
                                 {checkerPieces && checkerPieces[rowIndex][colIndex] === 1 && <CheckerPiece player={1} setClickedPiecePlayer={setClickedPiecePlayer} clickedPiece={clickedPiece} setClickedPiece={setClickedPiece} isClicked={rowIndex == clickedPiece[0] && colIndex == clickedPiece[1]} row={rowIndex} col={colIndex} left={colIndex*100} color={playerOneColor} shape={playerOneShape} />}
                                 {checkerPieces && checkerPieces[rowIndex][colIndex] === -1 && <CheckerPiece player={2} setClickedPiecePlayer={setClickedPiecePlayer} clickedPiece={clickedPiece} setClickedPiece={setClickedPiece} isClicked={rowIndex === clickedPiece[0] && colIndex === clickedPiece[1]} row={rowIndex} col={colIndex} left={colIndex*100} row={rowIndex} col={colIndex} left={colIndex*100} color={playerTwoColor} shape={playerTwoShape}/>}
                                 </>
