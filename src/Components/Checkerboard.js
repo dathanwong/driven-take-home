@@ -6,6 +6,7 @@ const Checkerboard = (props) => {
     
     const {dimensions, playerOneColor, playerTwoColor, playerOneShape, playerTwoShape} = props;
     const [checkerPieces, setCheckerPieces] = useState(null);
+    const [clickedPiece, setClickedPiece] = useState([-1, -1]);
 
     //Create checkerboard matrix with each item indicating color
     let board = [];
@@ -46,8 +47,8 @@ const Checkerboard = (props) => {
                             return (
                                 <>
                                 <span key={rowIndex + colIndex} className={col === 1 ? "square square-black" : "square square-white"}></span>
-                                {checkerPieces && checkerPieces[rowIndex][colIndex] === 1 && <CheckerPiece left={colIndex*100} color={playerOneColor} shape={playerOneShape} />}
-                                {checkerPieces && checkerPieces[rowIndex][colIndex] === -1 && <CheckerPiece left={colIndex*100} color={playerTwoColor} shape={playerTwoShape}/>}
+                                {checkerPieces && checkerPieces[rowIndex][colIndex] === 1 && <CheckerPiece clickedPiece={clickedPiece} setClickedPiece={setClickedPiece} isClicked={rowIndex == clickedPiece[0] && colIndex == clickedPiece[1]} row={rowIndex} col={colIndex} left={colIndex*100} color={playerOneColor} shape={playerOneShape} />}
+                                {checkerPieces && checkerPieces[rowIndex][colIndex] === -1 && <CheckerPiece clickedPiece={clickedPiece} setClickedPiece={setClickedPiece} isClicked={rowIndex === clickedPiece[0] && colIndex === clickedPiece[1]} row={rowIndex} col={colIndex} left={colIndex*100} row={rowIndex} col={colIndex} left={colIndex*100} color={playerTwoColor} shape={playerTwoShape}/>}
                                 </>
                                 )
                             })
