@@ -3,10 +3,11 @@ import './CheckerPieceStyle.css';
 
 const CheckerPiece = (props) => {
 
-    const {color, left, shape, row, col, clickedPiece, setClickedPiece} = props;
+    const {color, left, shape, row, col, clickedPiece, setClickedPiece, setClickedPiecePlayer, player} = props;
 
     function handleClick(){
         setClickedPiece([row, col]);
+        setClickedPiecePlayer(player);
     }
 
     return ( 
