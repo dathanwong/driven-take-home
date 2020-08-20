@@ -22,7 +22,7 @@ const Main = (props) => {
             </div>
             <div className="row">
                 <div className="col">
-                    <Checkerboard dimensions={dimensions} playerOneColor={playerOneColor} playerTwoColor={playerTwoColor} playerTwoShape={playerTwoShape} playerOneShape={playerOneShape} />
+                    <Checkerboard setDimensions={setDimensions} dimensions={dimensions} playerOneColor={playerOneColor} playerTwoColor={playerTwoColor} playerTwoShape={playerTwoShape} playerOneShape={playerOneShape} />
                 </div>
             </div>
         </div>

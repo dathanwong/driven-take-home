@@ -5,13 +5,48 @@ import Square from './Square';
 
 const Checkerboard = (props) => {
     
-    const {dimensions, playerOneColor, playerTwoColor, playerOneShape, playerTwoShape} = props;
+    const {setDimensions, dimensions, playerOneColor, playerTwoColor, playerOneShape, playerTwoShape} = props;
     const [checkerPieces, setCheckerPieces] = useState(null);
     const [clickedPiece, setClickedPiece] = useState([-3, -3]);
     const [clickedPiecePlayer, setClickedPiecePlayer] = useState(1);
     const [lastClicked, setLastClicked] = useState(null);
     const [board, setBoard] = useState(resetBoard());
+    const [loaded, setLoaded] = useState(false);
 
+    //Try to load game from saved state
+    useEffect(() =>{
+        let gameBoard = localStorage.getItem("gameBoard");
+        let pieces = localStorage.getItem("pieces");
+        let clicked = localStorage.getItem("lastClicked");
+        let dims = localStorage.getItem("dimension");
+        if(gameBoard && pieces && clicked && dims){
+            console.log("Found data");
+            //Separate string into array of values
+            gameBoard = gameBoard.split(",");
+            pieces = pieces.split(",");
+            let index = 0;
+            let tempBoard = [];
+            let tempPieces = [];
+            //Loop through string data from session to recreate gameboard and checker pieces array
+            for(let i = 0; i < dims; i++){
+                let boardRow = [];
+                let pieceRow = [];
+                for(let j = 0; j < dims; j++){
+                    boardRow.push(gameBoard[index]);
+                    pieceRow.push(pieces[index]);
+                    index++;
+                }
+                tempBoard.push(boardRow);
+                tempPieces.push(pieceRow);
+            }
+            setDimensions(+dims);
+            setLastClicked(+localStorage.getItem("lastClicked"));
+            setBoard(tempBoard);
+            setCheckerPieces(tempPieces);
+            setLoaded(true);
+            console.log("Set new values");
+        }
+    }, [])
 
     //Create checkerboard matrix with each item indicating color
     //0 is a white square
@@ -38,6 +73,15 @@ const Checkerboard = (props) => {
         setCheckerPieces(initPieces());
     }
 
+    //Saves the game state to session
+    function saveGame(){
+        localStorage.setItem("gameBoard", board);
+        localStorage.setItem("pieces", checkerPieces);
+        localStorage.setItem("lastClicked", lastClicked);
+        localStorage.setItem("dimension", dimensions);
+        console.log("Game saved");
+    }
+
     //Function to move piece
     function movePiece(originalLocation, newLocation){
         //Make sure there is a piece at the original location
@@ -49,7 +93,7 @@ const Checkerboard = (props) => {
             tempPieces[originalLocation[0]][originalLocation[1]] = 0;
             tempPieces[newLocation[0]][newLocation[1]] = currentPiece;
             setCheckerPieces(tempPieces);
-            setBoard(resetBoard);
+            setBoard(resetBoard());
         }
     }
 
@@ -58,8 +102,11 @@ const Checkerboard = (props) => {
     //1 = red piece
     //-1 = black piece
     useEffect(() => {
-        setBoard(resetBoard());
-        setCheckerPieces(initPieces());
+        console.log("Dimensions changed");
+        if(!loaded){
+            resetGame();
+        }
+        setLoaded(false);
     }, [dimensions])
 
     function initPieces(){
@@ -78,6 +125,7 @@ const Checkerboard = (props) => {
 
     //Show potential moves when a piece is clicked
     useEffect(() =>{
+        console.log("Piece clicked");
         //Clear board of potential moves
         let tempBoard = resetBoard();
         //Make sure the same player is not clicking again
@@ -109,6 +157,9 @@ const Checkerboard = (props) => {
         }
     }, [clickedPiece])
 
+    if(board === null || checkerPieces === null || clickedPiece === null ) return "Loading...";
+    console.log("Board", checkerPieces);
+
     return (
         <>
         <div className="container">
@@ -139,7 +190,7 @@ const Checkerboard = (props) => {
             </div> 
             <div className="row">
                 <div className="col-2">
-                    <button className="btn btn-primary">Save</button>
+                    <button onClick={saveGame} className="btn btn-primary">Save</button>
                 </div>
                 <div className="col-2">
                     <button onClick={resetGame} className="btn btn-danger">Reset</button>
